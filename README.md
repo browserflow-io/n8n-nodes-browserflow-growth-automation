@@ -1,130 +1,138 @@
 # Browserflow for Growth Automation
 
-Scrape leads, collect market data, and automate sales tasks with Browserflow.
-Run your published browser flows from n8n and use their structured results in
-the next step of your workflow.
+Bring browser automation into your n8n workflows. Scrape leads, enrich company
+information, monitor products and prices, collect reports, and automate repetitive
+website tasks with [Browserflow](https://browserflow.io/home).
 
-This package connects to the current Browserflow platform at
-[browserflow.io](https://browserflow.io). It is separate from the existing
-`n8n-nodes-browserflow` package for the earlier platform and LinkedIn operations.
-It does not replace or migrate those nodes or credentials.
+Build your own browser flow with AI, test it, and publish it in Browserflow.
+Then run it from n8n with new inputs and use the results in your next steps.
+Connect the work you do in your browser to your CRM, spreadsheets, databases,
+and other apps through n8n.
 
-Package: `@browserflow/n8n-nodes-browserflow-growth-automation`. The node appears as **Browserflow for Growth Automation**.
-The package is published on npm. n8n verification is pending; availability in
-n8n Cloud is not yet established.
+## What you can build
 
-## Requirements
+- **Lead research and enrichment:** collect company and contact details, then add
+  them to your lead list or update a CRM record.
+- **Product and market monitoring:** gather product names, prices, availability,
+  and competitor information for comparisons or alerts.
+- **Sales and data entry:** use data from earlier n8n steps to fill forms, update
+  records, and carry out the website actions you recorded.
+- **Finance and operations:** collect invoice details, reports, and records from
+  vendor portals and pass them to your business tools.
+- **Content and research:** collect articles, track metrics, and gather information
+  for summaries, reports, or publishing workflows.
 
-- A Browserflow account with subscription access and at least one successfully
-  tested, published flow. Draft flows do not appear in n8n.
-- A self-hosted n8n installation that supports community nodes, or n8n Cloud once
-  this package has been verified and made available by n8n.
-- Browserflow must allow your exact n8n OAuth callback URL. Standard HTTPS n8n
-  Cloud callbacks are supported; self-hosted callbacks require registration by
-  the Browserflow operator. Contact support before connecting a new host.
+You choose the websites, steps, inputs, and results when building your flow.
+Start from your own task or clone a community flow from the
+[Browserflow marketplace](https://browserflow.io/marketplace).
+For signed-in tasks, save a login profile in Browserflow and attach it to your flow.
+Normal runs follow your saved steps without AI deciding each action; optional
+AI repair can help when a page changes.
+
+## Before you start
+
+You need a Browserflow account with subscription access and a successfully tested,
+published flow. Create and edit flows in Browserflow; this node runs them from n8n.
+Browserflow and n8n plans and usage costs are separate.
+
+This package is available for self-hosted n8n with community nodes enabled.
+n8n verification is pending, so it is not yet available as a verified node in
+n8n Cloud. It has been tested with n8n 2.39.8.
 
 ## Install
 
-Install `@browserflow/n8n-nodes-browserflow-growth-automation` through
-**Settings → Community Nodes** on self-hosted n8n. For development, run
-`npm ci` and `npm run dev` from this repository.
+In self-hosted n8n, open **Settings → Community Nodes → Install** and enter:
+
+```text
+@browserflow/n8n-nodes-browserflow-growth-automation
+```
+
+Follow the [n8n community node installation guide](https://docs.n8n.io/integrations/community-nodes/installation/gui-install/).
+The node appears as **Browserflow for Growth Automation**.
 
 ## Credentials
 
-1. Add the **Browserflow** node and create a **Browserflow OAuth2 API** credential.
-2. Click **Connect**, sign in to Browserflow, and approve the displayed permissions.
-3. Return to n8n and select your published flow. Refresh the list if needed.
+1. Add **Browserflow for Growth Automation** to your workflow and create a
+   **Browserflow OAuth2 API** credential.
+2. For a new self-hosted n8n installation, send the exact **OAuth Redirect URL**
+   shown in the credential to **hello@browserflow.io** so it can be registered.
+3. Connect your account, sign in to Browserflow, and approve the permissions.
+4. Return to n8n and select your credential.
 
-You do not need to paste an API key or client secret. n8n may show its OAuth
-Redirect URL; supply that exact URL to the Browserflow operator for a self-hosted
-installation. The public client uses PKCE and has no shared secret.
+There is no API key or client secret to copy. The connection can find your
+published flows, start runs, and retrieve their results. Your n8n instance
+receives the inputs and results you use in your workflow. You can revoke access
+in Browserflow under **Account → Connected apps**.
 
-The connection can list published flows, start runs, and read integration results
-in your Browserflow account. Saved login profiles and draft definitions are not
-returned. Your mapped inputs and run outputs are processed by your n8n instance.
-Disconnect through **Account → Connected apps** in Browserflow. Existing runs may
-finish after disconnection, but further API requests are denied.
+## Run your first flow
 
-## Run a flow
+1. In Browserflow, build your browser flow, define its inputs and output fields,
+   test it, and publish it.
+2. In n8n, choose it using **Flow → From List**, or enter its ID with **By ID**.
+3. Fill in **Inputs** with fixed values or map data from an earlier n8n node.
+4. Execute your workflow. Browserflow runs the published flow and the node waits
+   for its results.
+5. Use the returned fields in the next n8n nodes to update your apps, send an alert,
+   or continue processing the data.
 
-1. Select a flow under **Flow Name or ID**.
-2. Fill in **Inputs**, or map values from earlier nodes.
-3. Execute the workflow. Browserflow runs the published version and n8n waits for
-   completion, then returns the flow output as JSON.
+For example, take a company website from your CRM, pass it into your research
+flow, and map the returned company details back to that CRM record. Or run a
+product-monitoring flow on a schedule, compare prices, and send an alert when
+something changes. These are workflows you configure using this node and the
+other n8n nodes for your chosen apps.
 
-Each incoming n8n item starts one run and produces one linked output item.
-Named output lists stay arrays. Use n8n's **Split Out** node when you need a
-separate item for each row. For output `{"items":[{"name":"Example"}],"count":1}`,
-later nodes can use `{{$json.items}}` and `{{$json.count}}`.
+Each incoming n8n item starts one Browserflow run and returns one output item.
+Your flow determines the returned fields. If a field contains a list, use n8n's
+**Split Out** node to process each row separately. For example, a flow returning
+`{"items":[{"name":"Example"}],"count":1}` makes `{{$json.items}}` and
+`{{$json.count}}` available to later nodes.
 
-Optional input defaults remain on the Browserflow server, including secret
-defaults. Omit an optional field to use its published default. After republishing
-a flow, refresh its input fields in n8n.
+Import the [starter workflow](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/blob/main/examples/run-flow.json)
+to try the connection. Select your credential and published flow, then map its
+inputs. The example is inactive and contains no credentials.
 
-The default wait limit is five minutes. **Options → Timeout (Seconds)** accepts
-1–3600 seconds. A timeout or cancelled wait does not cancel the Browserflow run.
-Inspect the run in Browserflow before starting another execution. A repeated
-request within the same execution, node, loop iteration, and item reuses an
-idempotency key. A fresh workflow execution starts a new run. Website actions
-are not automatically retried by this node.
+## Options
 
-Import the [example workflow](examples/run-flow.json), choose your credential and
-flow, then map inputs. The example contains no credentials and is inactive.
+- **Limit:** return up to 100 results per list in one run. Accepts 1–100; if omitted,
+  the flow's saved list limit is used, capped at 100.
+- **Offset:** skip results to collect a later batch. Accepts 0–250000. For batches
+  of 100, use offsets 0, 100, 200, and so on. Your flow must be set up to reach
+  the later results, for example through pagination or scrolling.
+- **Timeout (Seconds):** how long n8n waits for the result. Defaults to 300 seconds;
+  accepts 1–3600. Larger offsets may need more time, and your n8n workflow or
+  instance may have its own time limit.
+
+Limit and Offset apply to each list in the flow. Each batch runs the flow again,
+including its website actions, so use batching where repeating those actions is
+intended. If n8n stops waiting, the Browserflow run may still be running. Check
+its run history before starting another execution.
 
 ## Troubleshooting
 
-- **No published flows:** test and publish a flow in the connected Browserflow
-  account, then refresh the flow list.
-- **Connect or reconnect:** open the credential and connect again if access was
-  revoked or the refresh token expired. Access tokens refresh automatically.
-- **Subscription required:** check billing in the same hosted Browserflow account.
-  A localhost subscription does not grant access to browserflow.io.
-- **Callback rejected:** register the exact callback shown by n8n; do not modify
-  it or disable PKCE.
-- **Run still running:** inspect the existing run before executing the workflow
-  again to avoid repeating website actions.
-- **Private preview password:** during private review, the Browserflow operator
-  supplies preview access separately. Do not put preview passwords in node
-  parameters or share them in workflows.
+- **Flow missing from the list:** test and publish it in the connected Browserflow
+  account, then refresh the list. Draft flows are not listed.
+- **Inputs missing or outdated:** define inputs in Browserflow, test and publish
+  the updated flow, then refresh its input fields in n8n. Leave optional fields
+  unset to use their published defaults.
+- **Connection rejected:** check that your exact OAuth Redirect URL is registered.
+  If access was revoked, reconnect the credential.
+- **Subscription required:** check subscription access in the Browserflow account
+  you connected.
+- **Website login expired:** sign in again in Browserflow and update the flow's
+  saved login profile.
+- **Run timed out:** inspect the run in Browserflow before trying again. A new n8n
+  execution starts a new run and may repeat website actions.
 
-## Development and releases
+## Help and resources
 
-Use Node.js 24. Run `npm ci`, `npm run check`, and `npm run dev`.
-Tests cover input mapping, output linking, polling, failures, cancellation,
-idempotency and OAuth defaults. The package check excludes application data,
-server code and legacy nodes from publication.
+- [Browserflow documentation](https://browserflow.io/docs)
+- [Browserflow support](https://browserflow.io/support) or **hello@browserflow.io**
+- [Report an integration issue](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/issues)
 
-Releases use this repository's manually triggered **Publish Browserflow plugin**
-GitHub Actions workflow. The requested version must match `package.json` and
-must not exist on npm. See [release preparation](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/blob/main/RELEASE.md).
+Do not include credentials or private website data in public issues.
+This package connects to the current Browserflow platform. The older
+`n8n-nodes-browserflow` package and Browserflow for LinkedIn are separate;
+installing this package does not migrate existing workflows.
 
-## Support and license
-
-For account and callback setup, contact **hello@browserflow.io**.
-For reproducible integration issues, use this repository's issue tracker.
-Never include credentials, tokens or private website data in a public issue.
-
-MIT. See [LICENSE.md](LICENSE.md).
-
-## List batches
-
-Use **Options → Limit** and **Offset** to request batches. For 100 items at a
-time, set Limit to 100 and use offsets 0, 100, 200, etc. Omit Limit to use the
-recorded list limits, capped at 100 items per list per execution. Limit accepts
-1–100; Offset accepts 0–250000 and defaults to zero. The controls apply independently
-to every list and remain separate from named flow inputs. Recorded pagination
-and page limits still apply. Each batch starts a fresh replay of all website
-actions, so use batching on flows whose actions you intend to repeat.
-This requires a Browserflow server version with run batching support.
-
-### Flow picker
-
-New nodes use the searchable **Flow → From List** picker. It loads published
-flows when opened, after the stored credential has been selected. This avoids
-the initial-load race between n8n's options loader and automatic credential
-selection. **By ID** is also available. Existing version-1 nodes and saved string
-IDs remain compatible; use **Refresh List** if an older node retains an initial
-fetch error. New nodes use node version 1.1. Package 1.1.3 refreshes the input
-fields immediately when selecting a flow, including the first selection in a
-new node; reopening the workflow is not required. Existing version-1 nodes keep
-their original field dependency and saved mappings.
+For contributors: [development and release notes](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/blob/main/RELEASE.md).
+Licensed under [MIT](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/blob/main/LICENSE.md).

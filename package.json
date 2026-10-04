@@ -1,7 +1,7 @@
 {
   "name": "@browserflow/n8n-nodes-browserflow-growth-automation",
-  "version": "1.1.4",
-  "description": "Scrape leads, collect market data, and automate sales tasks with Browserflow in n8n.",
+  "version": "1.1.5",
+  "description": "Connect browser automation to n8n: scrape and enrich data, monitor websites, and automate tasks with your own reusable Browserflow flows.",
   "keywords": [
     "n8n-community-node-package",
     "browserflow",

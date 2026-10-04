@@ -1,3 +1,32 @@
+# Customer documentation — 1.1.5
+
+The README now introduces research, enrichment, monitoring, sales, finance and
+operations use cases, followed by setup, input mapping and result reuse.
+The package description and repository About text use the same customer-facing
+summary. Node behavior, credentials and workflow identifiers are unchanged.
+
+Reviewed against the official n8n verification, submission and UX guidelines on
+4 October 2026. Keep English installation/authentication instructions, an example
+workflow, compatibility, practical limits and support links in the public README.
+Do not describe this package as verified or available on n8n Cloud before approval.
+Raf handles the Creator Portal submission and communications himself.
+
+## Development
+
+Use Node.js 24. Run `npm ci --ignore-scripts`, `npm run check`, and `npm run dev`.
+The checks cover behavior, strict n8n lint and the publication boundary. Release
+only this standalone package through **Publish Browserflow plugin**, with the exact
+unused version from package.json. Run its CI first; publish with provenance and
+verify the actual registry archive using the official n8n scanner afterwards.
+
+Current package: `@browserflow/n8n-nodes-browserflow-growth-automation`.
+Current repository: `browserflow-io/n8n-nodes-browserflow-growth-automation`.
+The older notes below are historical evidence, not current publication instructions.
+The website preview gate has since been removed; account/subscription requirements
+still apply. Review access is arranged privately, never in the public README.
+
+## Earlier releases
+
 # Package rename — 1.1.4
 
 The active package is `@browserflow/n8n-nodes-browserflow-growth-automation`.
