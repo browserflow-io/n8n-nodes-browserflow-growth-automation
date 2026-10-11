@@ -1,3 +1,25 @@
+# Trusted publishing — 1.1.6
+
+Version 1.1.6 keeps the node and credential behavior unchanged.
+The publication workflow uses GitHub OIDC only, with no `NPM_TOKEN`
+fallback. It keeps manual dispatch from `main`, the `npm` environment, package
+identity/version checks and provenance. Release builds do not restore an npm
+cache, and checkout does not persist Git credentials. A preflight requires
+`npm >=11.5.1` and the GitHub OIDC request environment.
+
+The package's npm trusted publisher is configured for owner `browserflow-io`, repository
+`n8n-nodes-browserflow-growth-automation`, workflow `publish.yml`, environment
+`npm`, with direct `npm publish` allowed. Confirm a real publication using OIDC
+before disallowing token-based publishing and revoking the old bootstrap token.
+New npm publisher configurations need their first successful publish within two
+days. A dry run does not establish successful authentication.
+
+Configuration was saved on 11 October 2026. Publication validation and bootstrap
+token retirement follow the first successful OIDC release. Local build, all 12
+behavior tests, strict lint, package boundary, workflow preflight and formatting
+checks passed.
+See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+
 # Customer documentation — 1.1.5
 
 The README now introduces research, enrichment, monitoring, sales, finance and

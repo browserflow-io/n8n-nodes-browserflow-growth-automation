@@ -21,11 +21,22 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
       - uses: actions/setup-node@v4
         with:
           node-version: 24
-          cache: npm
           registry-url: https://registry.npmjs.org
+      - name: Verify trusted publishing support
+        run: |
+          node --input-type=module <<'JS'
+          import assert from 'node:assert/strict';
+          import { execFileSync } from 'node:child_process';
+          const version = execFileSync('npm', ['--version'], { encoding: 'utf8' }).trim();
+          const [major, minor, patch] = version.split('.').map(Number);
+          assert.ok(major > 11 || (major === 11 && (minor > 5 || (minor === 5 && patch >= 1))), 'Trusted publishing requires npm >=11.5.1.');
+          assert.ok(process.env.ACTIONS_ID_TOKEN_REQUEST_URL && process.env.ACTIONS_ID_TOKEN_REQUEST_TOKEN, 'GitHub OIDC permission is required.');
+          JS
       - run: npm ci --ignore-scripts
       - run: npm run check
       - name: Validate publication identity and unused version
@@ -43,8 +54,6 @@ jobs:
           const response = await fetch(`https://registry.npmjs.org/${pkg.name}/${pkg.version}`);
           assert.equal(response.status, 404, 'Version exists or registry status is uncertain; refusing publication.');
           JS
-      # Prefer npm Trusted Publishing. NPM_TOKEN is only for the initial package
-      # bootstrap if npm does not yet allow a trusted publisher to be configured.
+      # npm authenticates this exact workflow/environment through GitHub OIDC.
+      # Do not restore a long-lived publication token as a fallback.
       - run: npm publish --provenance --access public
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
