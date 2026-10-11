@@ -9,16 +9,20 @@ cache, and checkout does not persist Git credentials. A preflight requires
 
 The package's npm trusted publisher is configured for owner `browserflow-io`, repository
 `n8n-nodes-browserflow-growth-automation`, workflow `publish.yml`, environment
-`npm`, with direct `npm publish` allowed. Confirm a real publication using OIDC
-before disallowing token-based publishing and revoking the old bootstrap token.
-New npm publisher configurations need their first successful publish within two
-days. A dry run does not establish successful authentication.
+`npm`, with direct `npm publish` allowed. npm confirms the publisher as Valid
+following the successful OIDC publication of 1.1.6 from `1f55ca4` on 11 October
+2026 ([run 38160750305](https://github.com/browserflow-io/n8n-nodes-browserflow-growth-automation/actions/runs/38160750305)).
 
-Configuration was saved on 11 October 2026. GitHub Actions is enabled only for
-this repository in the organization; other repositories remain excluded. Publication validation and bootstrap
-token retirement follow the first successful OIDC release. Local build, all 12
-behavior tests, strict lint, package boundary, workflow preflight and formatting
-checks passed.
+GitHub Actions is enabled only for this repository in the organization. Package
+CI and CodeQL passed before publication. Local build, all 12 behavior tests,
+strict lint, package boundary, workflow preflight and formatting checks passed.
+The npm latest tag is 1.1.6; all 13 registry archive files exactly match the local
+source/build and SHA-512 integrity passes. Archive SHA-1:
+`b0f36591cdd0d3eae82d83fd948392187f173305`. The official n8n scanner 0.38.0
+passed all provenance, attested source and artifact security checks.
+
+The old bootstrap token expired on 8 October. Removing its obsolete records and
+saving the restrictive npm publishing setting are awaiting owner confirmation.
 See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
 
 # Customer documentation — 1.1.5
