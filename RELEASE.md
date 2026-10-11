@@ -14,7 +14,8 @@ before disallowing token-based publishing and revoking the old bootstrap token.
 New npm publisher configurations need their first successful publish within two
 days. A dry run does not establish successful authentication.
 
-Configuration was saved on 11 October 2026. Publication validation and bootstrap
+Configuration was saved on 11 October 2026. GitHub Actions is enabled only for
+this repository in the organization; other repositories remain excluded. Publication validation and bootstrap
 token retirement follow the first successful OIDC release. Local build, all 12
 behavior tests, strict lint, package boundary, workflow preflight and formatting
 checks passed.
