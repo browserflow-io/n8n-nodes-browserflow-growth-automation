@@ -21,8 +21,10 @@ source/build and SHA-512 integrity passes. Archive SHA-1:
 `b0f36591cdd0d3eae82d83fd948392187f173305`. The official n8n scanner 0.38.0
 passed all provenance, attested source and artifact security checks.
 
-The old bootstrap token expired on 8 October. Removing its obsolete records and
-saving the restrictive npm publishing setting are awaiting owner confirmation.
+The old bootstrap token expired on 8 October and was deleted. npm now disallows
+bypass-2FA tokens; the trusted publisher remains Valid. The obsolete GitHub
+`NPM_TOKEN` secret was also deleted after owner confirmation. The release workflow
+requires no stored npm credential.
 See [npm trusted publishing](https://docs.npmjs.com/trusted-publishers/).
 
 # Customer documentation — 1.1.5
